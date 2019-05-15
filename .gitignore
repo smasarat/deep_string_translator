@@ -7,3 +7,4 @@ workspace.xml
 .idea/
 tensor_string_translate/
 data/deu.txt
+model/

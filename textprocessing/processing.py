@@ -18,6 +18,25 @@ class Process(object):
 
     def normalize_text(self, normalize_unicodes=True, to_lower_case_filter=True, only_printable_chars_filter=True,
                        no_digits_and_punctuation_filter=True):
+        """
+        We developed the system based on the tab seperated format by default. You can easily change it
+        the format we have worked on it is following below format:
+
+            Hi.	Hallo!
+            Hi.	Grüß Gott!
+            Run!	Lauf!
+            Wow!	Potzdonner!
+            Wow!	Donnerwetter!
+
+        First column represent source strings and the second column represents the target we want to get if we enter the
+        first column to our model.
+
+        :param normalize_unicodes: False if you do not want to perform unicode normalization
+        :param to_lower_case_filter: False if you do not want to perform lower case filtering normalization
+        :param only_printable_chars_filter: False if you do not want to perform only printable normalization
+        :param no_digits_and_punctuation_filter: False if you do not want to perform only digits normalization
+        :return: list of lists. with normalization performed on them.
+        """
 
         with open(file=self.file_path, encoding="utf-8", mode="rt") as s_f:
             source_file = s_f.read()
@@ -47,11 +66,15 @@ class Process(object):
             source_text_list = list(map(lambda x: "".join(x), tmp_source_text_list))
             tmp_source_text_list = []
             for tmp_line in source_text_list:
-                tmp_source_text_list.append("\t".join([word for word in tmp_line.split("\t") if word.rstrip().lstrip().replace(" ", "").isalpha()]))
+                tmp_source_text_list.append("\t".join(
+                    [word for word in tmp_line.split("\t") if word.rstrip().lstrip().replace(" ", "").isalpha()]))
             source_text_list = tmp_source_text_list
 
         self.source_text_list = list(map(lambda x: x.split("\t"), source_text_list))
         return self.source_text_list
+
+    def drop_abnormals(self):
+        return list(filter(lambda x: len(x) == 2, self.source_text_list))
 
 
 def test_open_process():
