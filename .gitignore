@@ -1,0 +1,9 @@
+.idea/vcs.xml
+static/
+templates/
+*.log
+tensor
+workspace.xml
+.idea/
+tensor_string_translate/
+data/deu.txt

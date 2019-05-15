@@ -1,0 +1,11 @@
+Hi.	Hallo!
+Hi.	Grüß Gott!
+Run!	Lauf!
+Wow!	Potzdonner!
+Wow!	Donnerwetter!
+Fire!	Feuer!
+Help!	Hilfe!
+Help!	Zu Hülf!
+Stop!	Stopp!
+Wait!	Warte!
+Go on.	Mach weiter.
