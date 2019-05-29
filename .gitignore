@@ -7,4 +7,5 @@ workspace.xml
 .idea/
 tensor_string_translate/
 data/deu.txt
+data/source_list.pkl
 model/

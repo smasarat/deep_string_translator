@@ -2,11 +2,10 @@ import re, string
 from unicodedata import normalize
 import pickle
 import logging
-from logging.config import dictConfig
 
 from logconfig import log_config
 
-dictConfig(log_config.LOGGING)
+logging.basicConfig(format=log_config.FORMAT)
 
 logger = logging.getLogger("file")
 
@@ -78,11 +77,11 @@ class Process(object):
 
 
 def test_open_process():
-    _process = Process(file_path="../data/deu.txt")
+    _process = Process(file_path="../data/deu_eng.txt")
 
 
 def test_normalize_text():
-    _process = Process(file_path="../data/deu.txt")
+    _process = Process(file_path="../data/deu_eng.txt")
     source_text_list = _process.normalize_text()
     for i in range(100):
         if len(source_text_list[i]) == 2:

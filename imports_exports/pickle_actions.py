@@ -1,9 +1,8 @@
 import pickle
 from logconfig import log_config
 import logging
-from logging.config import dictConfig
 
-dictConfig(log_config.LOGGING)
+logging.basicConfig(format=log_config.FORMAT)
 
 logger = logging.getLogger("file")
 
@@ -14,13 +13,17 @@ class PickleActions(object):
 
     def save_pickle(self, content, file_name):
         try:
-            pickle.dump(content, open("{}/{}".format(self.target_dir, file_name), 'wb'))
+            with open("{}/{}".format(str(self.target_dir), file_name), 'wb') as f:
+                pickle.dump(content, f, protocol=pickle.HIGHEST_PROTOCOL)
         except Exception as e:
             logger.exception(e)
 
-    def load_pickle(self, file_name):
+    def load_pickle(self, file_name=None):
         try:
-            return pickle.load(open("{}/{}".format(self.target_dir, file_name), 'rb'))
+            if file_name is None:
+                return pickle.load(open("{}".format(self.target_dir), 'rb'))
+            else:
+                return pickle.load(open("{}/{}".format(self.target_dir, file_name), 'rb'))
         except Exception as e:
             logger.exception(e)
 
