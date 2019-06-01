@@ -18,33 +18,45 @@ This [Jupyter Notebook](http://mscoco.org/dataset/) represents the whole process
 ### Train your model
 You can train this StringToString translator on any languages by running `train.py` script. Run `python train.py -h` to see options.
 ```
-* file_path: 
-* num_training_records: 
-* save_source_tokenizer_path: 
-* save_target_tokenizer_path: 
-* source_tokenizer_name: 
-* target_tokenizer_name: 
-* lstm_n_units: 
-* train_batch_size: 
-* save_model_path: 
-* evaluation_percent: 
-* num_epochs: 
+* --file_path: The path you have inserted your training data.
+* --num_training_records: Define number of records for trainin (consider your Ram and cpy/gpu supports)
+* --save_source_tokenizer_path: Path you want save your source tokenizer. You need it for testing procedure. 
+* --save_target_tokenizer_path: Path you want save your target tokenizer. You need it for testing procedure.
+* --lstm_n_units: Number of LSTM units in training process. 
+* --train_batch_size: Number of batch elements should be passed to 
+* --save_model_path: Path to the direcotry you want save the model. You need it for testing procedure.
+* --evaluation_percent: Percent of data you want use for evaluation.
+* --num_epochs: Number of epochs for training process.
 ```
-However you can run train script with default values (after downloading required files and models and placing them in right places) by simply running `python train.py` . If you have installed `tensorboard` on your machine, you can check the
-training procedure by accessing this `model/graph` file during training service. 
+You can run train script with default values (after downloading required files and models and placing them in right places) by simply running `python train.py` . If you have installed `tensorboard` on your machine, you can check the
+training procedure by accessing this `model/graph` file during training service. However here is all you need to run train
+script and save your model.
+
+```
+python train.py --file_path=./data/deu_eng.txt --num_training_records=10000 --save_source_tokenizer_path=./model/ger_tokenizer.pkl --save_target_tokenizer_path=./model/eng_tokenizer.pkl --ls
+tm_n_units=256 --train_batch_size=64 --save_model_path=./model/ger_eng_model.h5 --tensor_board_model_path=./model/graph --evaluation_percent=0.2 --num_epochs=10 --training_batch_size=64
+```
 
 ### Test your model
 You can test your trained StringToString translator by running `test.py` script. Run `python test.py -h` to see options.
 ```
-* --model_path: 
-* --test_sentences: 
-* --source_tokenizer: 
-* --target_tokenizer: 
+* --model_path: Path to model.
+* --test_sentences: Place the test sentences in "". i.e "es ist zu spat,du hast mir gefehlt" 
+* --source_tokenizer: Path to soruce tokenizer pickle file.
+* --target_tokenizer: Path to target tokenizer pickle file.
 ```
-However you can run test script with default values (after downloading required files and models and placing them in right places) by simply running `python test.py` 
+You can run test script with default values (after downloading required files and models and placing them in right places) by simply running `python test.py`
+However here is all you need to run test script and get outputs.
+```
+python test.py --model_path=./model/ger_eng_model.h5 --test_sentences="es ist zu spat,du hast mir gefehlt" --source_tokenizer=./model/ger_tokenizer.pkl --target_tokenizer=./model/eng_tokenizer.pkl
+```
 
 ## Sample outputs
-Here are some outputs for 
+Here are some outputs for German to English: 
+
+
+## Tensorboard outputs
+
 
 ## Acknowledgements
 

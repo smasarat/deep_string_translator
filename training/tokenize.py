@@ -67,13 +67,13 @@ class SentencesTokenizer(object):
             target.append(word)
         return ' '.join(target)
 
-    def save_tokenizer(self, file_name="tokenizer", dir="../model"):
-        _pickle_actions = PickleActions(target_dir=dir)
-        _pickle_actions.save_pickle(content=self._tokenizer, file_name="{}.pkl".format(file_name))
+    def save_tokenizer(self, file_path="../model/tokenizer.pkl"):
+        _pickle_actions = PickleActions(target_path=file_path)
+        _pickle_actions.save_pickle(content=self._tokenizer)
 
-    def load_tokenizer(self, file_name="tokenizer", dir="../model"):
-        _pickle_actions = PickleActions(target_dir=dir)
-        self._tokenizer = _pickle_actions.load_pickle(file_name="{}".format(file_name))
+    def load_tokenizer(self, file_path):
+        _pickle_actions = PickleActions(target_path=file_path)
+        self._tokenizer = _pickle_actions.load_pickle()
         self.length = len(self._tokenizer.word_index)
 
 

@@ -16,7 +16,7 @@ class Process(object):
         self.source_text_list = None
 
     def normalize_text(self, normalize_unicodes=True, to_lower_case_filter=True, only_printable_chars_filter=True,
-                       no_digits_and_punctuation_filter=True):
+                       no_digits_and_punctuation_filter=True, drop_abnormals=True):
         """
         We developed the system based on the tab seperated format by default. You can easily change it
         the format we have worked on it is following below format:
@@ -34,6 +34,7 @@ class Process(object):
         :param to_lower_case_filter: False if you do not want to perform lower case filtering normalization
         :param only_printable_chars_filter: False if you do not want to perform only printable normalization
         :param no_digits_and_punctuation_filter: False if you do not want to perform only digits normalization
+        :param drop_abnormals: if the repetition of the word is more than once, drop the extra ones !
         :return: list of lists. with normalization performed on them.
         """
 
@@ -70,18 +71,19 @@ class Process(object):
             source_text_list = tmp_source_text_list
 
         self.source_text_list = list(map(lambda x: x.split("\t"), source_text_list))
-        return self.source_text_list
 
-    def drop_abnormals(self):
-        return list(filter(lambda x: len(x) == 2, self.source_text_list))
+        if drop_abnormals:
+            self.source_text_list = list(filter(lambda x: len(x) == 2, self.source_text_list))
+
+        return self.source_text_list
 
 
 def test_open_process():
-    _process = Process(file_path="../data/deu_eng.txt")
+    _process = Process(file_path="../data/deu_to_eng.txt")
 
 
 def test_normalize_text():
-    _process = Process(file_path="../data/deu_eng.txt")
+    _process = Process(file_path="../data/deu_to_eng.txt")
     source_text_list = _process.normalize_text()
     for i in range(100):
         if len(source_text_list[i]) == 2:

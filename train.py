@@ -10,32 +10,22 @@ from training.tokenize import SentencesTokenizer
 parser = argparse.ArgumentParser(description='Load data and Train a Model')
 
 parser.add_argument('--file_path', type=str,
-                    help='tab-separated text file (default=./data/deu_eng.txt)',
-                    default="./data/deu_eng.txt")
+                    help='tab-separated text file (default=./data/deu_to_eng.txt)',
+                    default="./data/deu_to_eng.txt")
 
 parser.add_argument('--num_training_records', type=int,
-                    help='Number of rows for training (default=100000) ',
-                    default=10000)
+                    help='Number of rows for training (default=10000) ',
+                    default=1000)
 
 parser.add_argument('--save_source_tokenizer_path', type=str,
                     help='Save source tokenizer in desired destination. We recommend save it. You need load it in test process.'
-                         'Enter None for Skipping saving status default address (./model)',
-                    default="./model")
+                         'Enter None for Skipping saving status default address (./model/source_tokenizer.pkl)',
+                    default="./model/source_tokenizer.pkl")
 
 parser.add_argument('--save_target_tokenizer_path', type=str,
                     help='Save target tokenizer in desired destination. We recommend save it. You need load it in test process.'
-                         'Enter None for Skipping saving status default address (./model)',
-                    default="./model")
-
-parser.add_argument('--source_tokenizer_name', type=str,
-                    help='Source tokenizer name. You need load it in test process.'
-                         'Enter None for Skipping saving status default address (source_tokenizer)',
-                    default="source_tokenizer")
-
-parser.add_argument('--target_tokenizer_name', type=str,
-                    help='Target tokenizer name. You need load it in test process.'
-                         'Enter None for Skipping saving status default address (target_tokenizer)',
-                    default="target_tokenizer")
+                         'Enter None for Skipping saving status default address (./model/target_tokenizer.pkl)',
+                    default="./model/target_tokenizer.pkl")
 
 parser.add_argument('--lstm_n_units', type=int,
                     help='number of units in LSTM training (default=256)',
@@ -52,7 +42,7 @@ parser.add_argument('--tensor_board_model_path', type=str,
                     help='You can use tensorboard to visualize training procedure with this file)(default=./model/graph)',
                     default="'./model/graph'")
 
-parser.add_argument('--evaluation_percent', type=str,
+parser.add_argument('--evaluation_percent', type=float,
                     help='allocate the percent you want perform for validation (default=0.2)',
                     default=0.2)
 
@@ -67,6 +57,8 @@ parser.add_argument('--training_batch_size', type=int,
 args = parser.parse_args()
 file_path = args.file_path
 number_of_records = args.num_training_records
+save_source_tokenizer_path = args.save_source_tokenizer_path
+save_target_tokenizer_path = args.save_target_tokenizer_path
 model_name = args.save_model_path
 evaluation_percent = args.evaluation_percent
 tensor_board_model_path = args.tensor_board_model_path
@@ -75,16 +67,15 @@ num_epochs = args.num_epochs
 
 # reading data and normalizing
 _process = Process(file_path=file_path)
-input_text_list = _process.normalize_text()
-input_text_list = _process.drop_abnormals()
+input_text_list = _process.normalize_text(drop_abnormals=True)
 input_text_list = input_text_list[:number_of_records]
 
 ################### SOURCE #######################
 source_text_list = [item[1].split() for item in input_text_list]
-# tokenizet
+# tokenizer
 _source_tokenizer = SentencesTokenizer()
 _source_tokenizer.create_tokenizer(source_text_list)
-_source_tokenizer.save_tokenizer(file_name="ger_tokenizer", dir="./model")
+_source_tokenizer.save_tokenizer(file_path=save_source_tokenizer_path)
 
 # encoding
 x_vector = _source_tokenizer.encode_sequences(list(map(lambda x: " ".join(x), source_text_list)))
@@ -95,7 +86,7 @@ x_vector = _source_tokenizer.encode_sequences(list(map(lambda x: " ".join(x), so
 target_text_list = [item[0].split() for item in input_text_list]
 _target_tokenizer = SentencesTokenizer()
 _target_tokenizer.create_tokenizer(target_text_list)
-_target_tokenizer.save_tokenizer(file_name="eng_tokenizer", dir="./model")
+_target_tokenizer.save_tokenizer(file_path=save_target_tokenizer_path)
 
 # encoding
 y_vector = _target_tokenizer.encode_sequences(list(map(lambda x: " ".join(x), target_text_list)))

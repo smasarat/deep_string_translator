@@ -6,6 +6,7 @@ tensor
 workspace.xml
 .idea/
 tensor_string_translate/
-data/deu.txt
+data/deu_to_eng.txt
 data/source_list.pkl
+data/fa_to_eng.txt
 model/

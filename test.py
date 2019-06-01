@@ -13,33 +13,32 @@ parser.add_argument('--test_sentences', type=str,
                     help='comma separated test sentences',
                     default="es ist zu spat,du hast mir gefehlt")
 
-parser.add_argument("--source_tokenizer", type=str,
+parser.add_argument("--source_tokenizer_path", type=str,
                     help="path to source_tokenizer (default=./model/ger_tokenizer.pkl)",
                     default="./model/ger_tokenizer.pkl")
 
-parser.add_argument("--target_tokenizer", type=str,
+parser.add_argument("--target_tokenizer_path", type=str,
                     help="path to target_tokenizer (default=./model/eng_tokenizer.pkl)",
                     default="./model/eng_tokenizer.pkl")
 
 args = parser.parse_args()
 
 print(args.model_path)
-# print(args.accumulate(args.integers))
 model = models.load_model(args.model_path)
 sentences_to_check_model = list(args.test_sentences.split(","))
-print(sentences_to_check_model)
+source_tokenizer_path = args.source_tokenizer_path
+target_tokenizer_path = args.target_tokenizer_path
+
 _source_tokenizer = SentencesTokenizer()
-_source_tokenizer.load_tokenizer("ger_tokenizer.pkl", dir="./model")
+_source_tokenizer.load_tokenizer(source_tokenizer_path)
 
 _target_tokenizer = SentencesTokenizer()
-_target_tokenizer.load_tokenizer("eng_tokenizer.pkl", dir="./model")
+_target_tokenizer.load_tokenizer(target_tokenizer_path)
 
 list_sentences_to_check_model = _source_tokenizer.encode_sequences(sentences_to_check_model, training=False,
                                                                    padding_size=model.input_shape[1])
 
-print(list_sentences_to_check_model)
 translated_sentences = model.predict(list_sentences_to_check_model)
-print(translated_sentences)
 
 for i in range(len(list_sentences_to_check_model)):
     print("{}:{}".format(sentences_to_check_model[i],

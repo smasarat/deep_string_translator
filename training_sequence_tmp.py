@@ -13,17 +13,16 @@ logging.basicConfig(format=log_config.FORMAT, level=logging.DEBUG)
 number_of_records = 10000
 
 # reading data and normalizing
-_process = Process(file_path="data/deu_eng.txt")
+_process = Process(file_path="data/deu_to_eng.txt")
 input_text_list = _process.normalize_text()
-input_text_list = _process.drop_abnormals()
 input_text_list = input_text_list[:number_of_records]
 
 ################### SOURCE #######################
 source_text_list = [item[1].split() for item in input_text_list]
-# tokenizet
+# tokenizer
 _source_tokenizer = SentencesTokenizer()
 _source_tokenizer.create_tokenizer(source_text_list)
-_source_tokenizer.save_tokenizer(file_name="ger_tokenizer", dir="./model")
+_source_tokenizer.save_tokenizer(file_path="./mode/ger_tokenizer.pkl")
 
 # encoding
 x_vector = _source_tokenizer.encode_sequences(list(map(lambda x: " ".join(x), source_text_list)))
@@ -34,7 +33,7 @@ x_vector = _source_tokenizer.encode_sequences(list(map(lambda x: " ".join(x), so
 target_text_list = [item[0].split() for item in input_text_list]
 _target_tokenizer = SentencesTokenizer()
 _target_tokenizer.create_tokenizer(target_text_list)
-_target_tokenizer.save_tokenizer(file_name="eng_tokenizer", dir="./model")
+_target_tokenizer.save_tokenizer(file_path="./model/eng_tokenizer.pkl")
 
 # encoding
 y_vector = _target_tokenizer.encode_sequences(list(map(lambda x: " ".join(x), target_text_list)))
