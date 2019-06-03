@@ -7,18 +7,23 @@ it would be my pleasure to discuss about them. Feel free to share it by sending 
 ## Requirements
 `requirements.txt` contains whole of dependencies which are needed to run and develop this repository. Just run `pip install -r requirements.txt` in your virtual environment. 
 
-Directory `data/` contains sample dataset which can be used for training model. You can also use your own data. The only assumption should be considered is it should be tab separated. The first column is source language text and the second column is target language text. See `data/deu_eng.txt`.
+Directory `data/` contains sample dataset which can be used for training model. You can also use your own data. The only assumption should be considered is it should be tab separated.
+ The first column is source language text and the second column is target language text. See `data/deu_eng.txt`.
 
 ## Pretrained models
-Pretrained models are provided [here]() for Dutch to English translation; and [here]() for English to Persian. It is obvious that the accuracy can be developed by considering more input data.
+Pretrained models are provided [here](https://www.dropbox.com/sh/2cc21gq9jq889bh/AACucPitQlN8IL0bLpEcqKOja?dl=0) for Dutch to English translation; and
+[here](https://www.dropbox.com/sh/wnkxikx2l7vjdh3/AADDFfQznETdOhuTjvmSQzZqa?dl=0) for Persian to English. It is obvious that the accuracy can be developed by considering more input data.
 
 ## Quick overview with Jupyter NoteBook
-This [Jupyter Notebook](http://mscoco.org/dataset/) represents the whole process includes Loading data, tokenizing, encoding, normalizing, training, evaluation and testing step by step.
+This [Jupyter Notebook](./train_test_sequnce.ipynb) represents the whole process includes Loading data, 
+tokenizing, encoding, normalizing, training, evaluation and testing step by step. You can review whole steps on this.
 
 ### Train your model
 You can train this StringToString translator on any languages by running `train.py` script. Run `python train.py -h` to see options.
 ```
 * --file_path: The path you have inserted your training data.
+* --ignore_all_normalizations: If you are not sure about encodings normalization problems (i.e in Persian) pass it True.
+    (in next versions, more customizable normalization will be provided).
 * --num_training_records: Define number of records for trainin (consider your Ram and cpy/gpu supports)
 * --save_source_tokenizer_path: Path you want save your source tokenizer. You need it for testing procedure. 
 * --save_target_tokenizer_path: Path you want save your target tokenizer. You need it for testing procedure.
@@ -28,7 +33,8 @@ You can train this StringToString translator on any languages by running `train.
 * --evaluation_percent: Percent of data you want use for evaluation.
 * --num_epochs: Number of epochs for training process.
 ```
-You can run train script with default values (after downloading required files and models and placing them in right places) by simply running `python train.py` . If you have installed `tensorboard` on your machine, you can check the
+You can run train script with default values (after downloading required files and models and placing them in right places) by simply 
+running `python train.py` . If you have installed `tensorboard` on your machine, you can check the
 training procedure by accessing this `model/graph` file during training service. However here is all you need to run train
 script and save your model.
 
@@ -48,16 +54,32 @@ You can test your trained StringToString translator by running `test.py` script.
 You can run test script with default values (after downloading required files and models and placing them in right places) by simply running `python test.py`
 However here is all you need to run test script and get outputs.
 ```
-python test.py --model_path=./model/ger_eng_model.h5 --test_sentences="es ist zu spat,du hast mir gefehlt" --source_tokenizer=./model/ger_tokenizer.pkl --target_tokenizer=./model/eng_tokenizer.pkl
+python test.py --model_path=./model/ger_eng_model.h5 --test_sentences="ich bin brillentrager,du hast mir gefehlt" --source_tokenizer=./model/ger_tokenizer.pkl --target_tokenizer=./model/eng_tokenizer.pkl
 ```
 
 ## Sample outputs
-Here are some outputs for German to English: 
-
+Here are some outputs for German to English:
+```
+> ich bin brillentrager ==> i wear glasses
+> du hast mir gefehlt ==> ive missed you
+``` 
+Or similarly for Persian to English:
+```
+> امروز صبح چکار کردی ==>  What did you do this morning
+> امروز صبح ==> what your tomorrow
+```
+The point could be mentioned is by reviewing Persian to English model, we can conclude the model is not working perfectly. 
+The Model returns perfect output for training data but its generalization is awful. The main reason is not enough training data.
+It is completely obvious that a translator could not be trained with 1500 records! If you find better dataset or you trained more accurate models
+ping me. I am always enthusiastic to discuss about them.  
 
 ## Tensorboard outputs
+Here are tensorboard outputs. 
+
+![loss curve](https://uc5619ca73d2e6b914011ca4e03f.previews.dropboxusercontent.com/p/thumb/AAdZXTAyLm3rQ7V2TSHdNlPlGBSIJXC3k3LVHPzlaBtp2jSeWbudBnKz6FP7_bb7aWKYd6I02cXWfVIwhlTfiCOUISKGJbQBjWInGzc3EtP9Ml4AINTBj28jQYxVJ_GSgFRnC2AW9YKm_hj81SsBYvKiLXB8OTcu0SqF4ZZ4Tmfys4zyF-aG6wXOL6Fpt6_MiLk3YxKhzLxuhmCJxUOPGPXGWBr7h3H8Q3Raz7zBNdQBfMpzm3QjSBlKK3tIirVke9u2uUbJYvjDomzs4CMRxkTVTM9gxV8lUgMPvxPUmB6-NvMLOxszDVgC4VYtTXSiOyoEHItrClYuuzGk1sld0BixpN0jxqW8moU2Xf7yFRUoIiEM_TTMEkP5M3LdejBSBz0/p.png?fv_content=true&size_mode=4)
 
 
 ## Acknowledgements
-
-Thanks to [Jason Brownlee](https://machinelearningmastery.com/develop-neural-machine-translation-system-keras/) article which inspired me to create and develop this repository.
+There is no doubt that training this network with more data and more iteration will provied more accurate results.
+In future versions we present novel networks with higher accuracy. So stay tuned with me!
+Finally, I want to thank [Jason Brownlee](https://machinelearningmastery.com/develop-neural-machine-translation-system-keras/) article which inspired me to create and develop this repository.

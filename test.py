@@ -1,6 +1,7 @@
 import argparse
 
 from keras import models
+from numpy import unicode
 
 from training.tokenize import SentencesTokenizer
 
@@ -11,7 +12,7 @@ parser.add_argument('--model_path', type=str,
 
 parser.add_argument('--test_sentences', type=str,
                     help='comma separated test sentences',
-                    default="es ist zu spat,du hast mir gefehlt")
+                    default="ich bin brillentrager,du hast mir gefehlt")
 
 parser.add_argument("--source_tokenizer_path", type=str,
                     help="path to source_tokenizer (default=./model/ger_tokenizer.pkl)",
@@ -42,4 +43,4 @@ translated_sentences = model.predict(list_sentences_to_check_model)
 
 for i in range(len(list_sentences_to_check_model)):
     print("{}:{}".format(sentences_to_check_model[i],
-                         _target_tokenizer.decode_sequence(predictions=translated_sentences[i])))
+                         _target_tokenizer.decode_sequence(predictions=translated_sentences[i])).encode("utf-8"))

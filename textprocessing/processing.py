@@ -1,14 +1,5 @@
 import re, string
 from unicodedata import normalize
-import pickle
-import logging
-
-from logconfig import log_config
-
-logging.basicConfig(format=log_config.FORMAT)
-
-logger = logging.getLogger("file")
-
 
 class Process(object):
     def __init__(self, file_path=None, source_text_list=None):

@@ -6,7 +6,9 @@ tensor
 workspace.xml
 .idea/
 tensor_string_translate/
-data/deu_to_eng.txt
 data/source_list.pkl
+data/deu_to_eng.txt
 data/fa_to_eng.txt
 model/
+.ipynb_checkpoints
+.pytest_cache

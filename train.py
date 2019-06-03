@@ -13,6 +13,11 @@ parser.add_argument('--file_path', type=str,
                     help='tab-separated text file (default=./data/deu_to_eng.txt)',
                     default="./data/deu_to_eng.txt")
 
+parser.add_argument('--ignore_all_normalizations', type=bool,
+                    help='If you want to avoid any normalization, pass True to it. In some languages such as Persian, encoding problems may effect the normalization and '
+                         'outputs. Pass it True if you are not sure about probable encoding problems.',
+                    default=False)
+
 parser.add_argument('--num_training_records', type=int,
                     help='Number of rows for training (default=10000) ',
                     default=1000)
@@ -56,6 +61,7 @@ parser.add_argument('--training_batch_size', type=int,
 
 args = parser.parse_args()
 file_path = args.file_path
+ignore_all_normalizations = args.ignore_all_normalizations
 number_of_records = args.num_training_records
 save_source_tokenizer_path = args.save_source_tokenizer_path
 save_target_tokenizer_path = args.save_target_tokenizer_path
@@ -67,7 +73,15 @@ num_epochs = args.num_epochs
 
 # reading data and normalizing
 _process = Process(file_path=file_path)
-input_text_list = _process.normalize_text(drop_abnormals=True)
+# In language such as Persian where the encoding may play considerable role in output, ignore normalization.
+# In future versions more configurations will be provided. I will be thankful if you share any idea.
+if ignore_all_normalizations:
+    input_text_list = _process.normalize_text(normalize_unicodes=False, to_lower_case_filter=False,
+                                              only_printable_chars_filter=False, no_digits_and_punctuation_filter=False,
+                                              drop_abnormals=False)
+else:
+    input_text_list = _process.normalize_text()
+
 input_text_list = input_text_list[:number_of_records]
 
 ################### SOURCE #######################

@@ -4,12 +4,10 @@ from keras import Sequential, models
 from keras.callbacks import TensorBoard, ModelCheckpoint
 from keras.layers import Embedding, LSTM, RepeatVector, TimeDistributed, Dense
 
-from logconfig import log_config
 from textprocessing.processing import Process
 from training.tokenize import SentencesTokenizer
 from sklearn.model_selection import train_test_split
 
-logging.basicConfig(format=log_config.FORMAT, level=logging.DEBUG)
 number_of_records = 10000
 
 # reading data and normalizing
@@ -39,8 +37,6 @@ _target_tokenizer.save_tokenizer(file_path="./model/eng_tokenizer.pkl")
 y_vector = _target_tokenizer.encode_sequences(list(map(lambda x: " ".join(x), target_text_list)))
 y_vector = _target_tokenizer.encode_output(y_vector)
 
-print()
-
 ################## DEEP TRAINING ###############
 model = Sequential()
 
@@ -65,7 +61,7 @@ X_train, X_test, y_train, y_test = train_test_split(x_vector, y_vector, test_siz
 model.fit(x=x_vector, y=y_vector, validation_data=(X_test, y_test), callbacks=[tensor_board_callback, checkpoint],
           batch_size=64, epochs=10, verbose=2)
 
-################ TEST WITH USE SENTENCES #####################
+################ TEST WITH SENTENCES #####################
 model = models.load_model("./model/ger_eng_model.h5")
 
 sentences_to_check_model = [

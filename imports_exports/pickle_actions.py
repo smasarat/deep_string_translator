@@ -1,10 +1,5 @@
 import pickle
-from logconfig import log_config
 import logging
-
-logging.basicConfig(format=log_config.FORMAT)
-
-logger = logging.getLogger("file")
 
 
 class PickleActions(object):
@@ -16,7 +11,7 @@ class PickleActions(object):
             with open("{}".format(self.target_path), 'wb') as f:
                 pickle.dump(content, f, protocol=pickle.HIGHEST_PROTOCOL)
         except Exception as e:
-            logger.exception(e)
+            logging.exception(e)
 
     def load_pickle(self, file_name=None):
         try:
@@ -25,7 +20,7 @@ class PickleActions(object):
             else:
                 return pickle.load(open("{}/{}".format(self.target_path, file_name), 'rb'))
         except Exception as e:
-            logger.exception(e)
+            logging.exception(e)
 
 
 def test_save_pickle():
