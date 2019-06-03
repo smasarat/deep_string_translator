@@ -2,7 +2,7 @@
 
 This is an translator captioning codebase in Tensorflow and Keras. The model is created based on LSTM.
 You can use pretrained model or train the new model yourself. If you have any idea to enhance the accuracy of model or you have any idea to change the model,
-it would be my pleasure to discuss about them. Feel free to share it by sending me an [email](saman.masarat@gmail.com).  
+it would be my pleasure to discuss about them. Feel free to share it by sending me an by saman.masarat@gmail.com.  
 
 ## Requirements
 `requirements.txt` contains whole of dependencies which are needed to run and develop this repository. Just run `pip install -r requirements.txt` in your virtual environment. 
