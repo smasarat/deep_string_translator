@@ -76,7 +76,7 @@ ping me. I am always enthusiastic to discuss about them.
 ## Tensorboard outputs
 Here are tensorboard outputs. 
 
-![loss curve](https://uc5619ca73d2e6b914011ca4e03f.previews.dropboxusercontent.com/p/thumb/AAdZXTAyLm3rQ7V2TSHdNlPlGBSIJXC3k3LVHPzlaBtp2jSeWbudBnKz6FP7_bb7aWKYd6I02cXWfVIwhlTfiCOUISKGJbQBjWInGzc3EtP9Ml4AINTBj28jQYxVJ_GSgFRnC2AW9YKm_hj81SsBYvKiLXB8OTcu0SqF4ZZ4Tmfys4zyF-aG6wXOL6Fpt6_MiLk3YxKhzLxuhmCJxUOPGPXGWBr7h3H8Q3Raz7zBNdQBfMpzm3QjSBlKK3tIirVke9u2uUbJYvjDomzs4CMRxkTVTM9gxV8lUgMPvxPUmB6-NvMLOxszDVgC4VYtTXSiOyoEHItrClYuuzGk1sld0BixpN0jxqW8moU2Xf7yFRUoIiEM_TTMEkP5M3LdejBSBz0/p.png?fv_content=true&size_mode=4)
+![loss curve](./data/loss_val.png)
 
 
 ## Acknowledgements
